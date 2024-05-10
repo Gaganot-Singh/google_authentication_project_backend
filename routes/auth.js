@@ -6,8 +6,11 @@ const authRouter = Router();
 const jwt = require("jsonwebtoken");
 require("../util/passport"); 
 
-const generateToken = (userId) => {
-  const payload = { id: userId }
+const generateToken = (user) => {
+  const payload = { 
+    id: user.id,
+    name: user.name
+   }
   return jwt.sign(payload, process.env.JWT_SECRET);
 };
 
@@ -24,7 +27,7 @@ authRouter.get("/google/callback", passport.authenticate("google", {
   failureRedirect: "/fail",
   session: false,
 }), (req, res) => {
-  const token = generateToken(req.user.id); 
+  const token = generateToken(req.user); 
   res.cookie('jwt', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production', 
