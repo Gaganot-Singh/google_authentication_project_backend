@@ -28,14 +28,8 @@ authRouter.get("/google/callback", passport.authenticate("google", {
   session: false,
 }), (req, res) => {
   const token = generateToken(req.user); 
-  res.cookie('jwt', token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', 
-    path: '/',
-    sameSite: 'None',
-    maxAge: 1000 * 60 * 60 * 24
-  });
-  res.redirect(process.env.FRONTEND_URL || 'https://google-authentication-project-frontend.vercel.app/');
+  // Send token in the URL
+  res.redirect(`${process.env.FRONTEND_URL || 'https://google-authentication-project-frontend.vercel.app/'}?token=${token}`);
 });
 
 module.exports = authRouter;
