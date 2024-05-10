@@ -9,7 +9,7 @@ const app = express();
 const session = require('express-session');
 
 app.use(cors({
-  origin: 'http://localhost:3000', 
+  origin: 'https://google-authentication-project-frontend.vercel.app/', 
   credentials: true, 
 }));
 
@@ -41,7 +41,7 @@ app.get("/success", (req, res) => {
   const { token } = req.query; 
   console.log("Redirecting from success with token");
 
-  res.redirect(`http://localhost:3000/?token=${token}`);
+  res.redirect(`https://google-authentication-project-frontend.vercel.app/?token=${token}`);
 });
 
 

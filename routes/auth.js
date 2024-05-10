@@ -35,7 +35,7 @@ authRouter.get("/google/callback", passport.authenticate("google", {
     maxAge: 1000 * 60 * 60 * 24, 
     
   });
-  res.redirect(process.env.FRONTEND_URL || 'http://localhost:3000/');
+  res.redirect(process.env.FRONTEND_URL || 'https://google-authentication-project-frontend.vercel.app/');
 
 });
 
