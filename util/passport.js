@@ -1,4 +1,3 @@
-
 const passportJWT = require('passport-jwt');
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
@@ -17,6 +16,7 @@ passport.deserializeUser((id, done) => {
 });
 
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_CALLBACK_URL, JWT_SECRET } = process.env;
+
 passport.use(new GoogleStrategy({
     clientID: GOOGLE_CLIENT_ID,
     clientSecret: GOOGLE_CLIENT_SECRET,
@@ -26,12 +26,7 @@ passport.use(new GoogleStrategy({
     try {
       const user = await User.findOneAndUpdate(
         { googleId: profile.id },
-        {
-          $set: {
-            name: profile.displayName,
-            googleId: profile.id,
-          },
-        },
+        { name: profile.displayName, googleId: profile.id },
         { upsert: true, new: true }
       );
       return cb(null, user);

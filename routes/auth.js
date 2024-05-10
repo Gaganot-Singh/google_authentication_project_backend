@@ -4,14 +4,14 @@ const { Router } = require("express");
 const passport = require("passport");
 const authRouter = Router();
 const jwt = require("jsonwebtoken");
-require("../util/passport"); 
+require("../util/passport");
 
 const generateToken = (user) => {
   const payload = { 
     id: user.id,
     name: user.name
-   }
-  return jwt.sign(payload, process.env.JWT_SECRET);
+  };
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d' });
 };
 
 authRouter.get("/google", (req, res, next) => {
@@ -32,12 +32,10 @@ authRouter.get("/google/callback", passport.authenticate("google", {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production', 
     path: '/',
-    maxAge: 1000 * 60 * 60 * 24, 
-    
+    sameSite: 'None',
+    maxAge: 1000 * 60 * 60 * 24
   });
   res.redirect(process.env.FRONTEND_URL || 'https://google-authentication-project-frontend.vercel.app/');
-
 });
-
 
 module.exports = authRouter;

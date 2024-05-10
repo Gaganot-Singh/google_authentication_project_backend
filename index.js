@@ -9,10 +9,9 @@ const app = express();
 const session = require('express-session');
 
 app.use(cors({
-  origin: 'https://google-authentication-project-frontend.vercel.app/', 
+  origin: 'https://google-authentication-project-frontend.vercel.app', 
   credentials: true, 
 }));
-
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB connected'))
@@ -22,34 +21,25 @@ app.use(express.json());
 app.use(morgan('tiny'));
 
 app.use(session({
-  secret: 'googleAuth',
+  secret: process.env.SESSION_SECRET || 'googleAuth',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: true, httpOnly: true, sameSite: 'None' } 
+  cookie: { secure: process.env.NODE_ENV === 'production', httpOnly: true, sameSite: 'None' }
 }));
-
-
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/auth', authRoute);
 
-
-
 app.get("/success", (req, res) => {
   const { token } = req.query; 
-  console.log("Redirecting from success with token");
-
   res.redirect(`https://google-authentication-project-frontend.vercel.app/?token=${token}`);
 });
-
 
 app.get("/fail", (_req, res) => {
   res.send("Fail");
 });
-
-
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
