@@ -23,10 +23,11 @@ passport.use(new GoogleStrategy({
     callbackURL: GOOGLE_CALLBACK_URL,
     scope: ['profile', 'email']
   },
-  async (_accessToken, _refreshToken, profile, email, cb) => {
+  async (_accessToken, _refreshToken, profile, cb) => {
     try {
-      const mail = email.emails[0].value;
-
+      const mail = profile.emails[0].value;
+      console.log("---------------", profile)
+      console.log("---------------", profile.emails[0].value)
       if (!mail) {
         return cb(new Error('No email found in user profile'), null);
       }
