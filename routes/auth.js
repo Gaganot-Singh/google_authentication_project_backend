@@ -44,7 +44,7 @@ authRouter.get("/google", (req, res, next) => {
   const { redirect_url } = req.query;
   const state = redirect_url ? Buffer.from(JSON.stringify({ redirect_url })).toString("base64") : undefined;
   return passport.authenticate("google", {
-    scope: ["profile"],
+    scope: ["profile", "email"],
     state,
   })(req, res, next);
 });

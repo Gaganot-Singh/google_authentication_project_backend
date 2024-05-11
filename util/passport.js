@@ -23,17 +23,18 @@ passport.use(new GoogleStrategy({
     callbackURL: GOOGLE_CALLBACK_URL,
     scope: ['profile', 'email']
   },
-  async (_accessToken, _refreshToken, profile, cb) => {
+  async (_accessToken, _refreshToken, profile, email, cb) => {
     try {
-      const email = profile.emails && profile.emails[0] && profile.emails[0].value ? profile.emails[0].value : null;
+      console.log('Google Profile:', profile, email); // Debugging log
+      const mail = profile.emails && profile.emails[0] && profile.emails[0].value ? profile.emails[0].value : null;
 
-      if (!email) {
+      if (!mail) {
         return cb(new Error('No email found in user profile'), null);
       }
-      
+
       const user = await User.findOneAndUpdate(
         { googleId: profile.id },
-        { name: profile.displayName, googleId: profile.id, email: email},
+        { name: profile.displayName, googleId: profile.id, mail: email},
         { upsert: true, new: true }
       );
       return cb(null, user);
