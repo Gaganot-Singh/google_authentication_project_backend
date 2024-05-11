@@ -25,12 +25,10 @@ authRouter.get("/google", (req, res, next) => {
 
 authRouter.get("/google/callback", passport.authenticate("google", {
   failureRedirect: "/fail",
-  session: true,
+  session: false,
 }), (req, res) => {
   const token = generateToken(req.user); 
   // Send token in the URL
-  req.session.token = token;
-  req.session.user = { name: req.user.name };
   res.redirect(`${process.env.FRONTEND_URL || 'https://google-authentication-project-frontend.vercel.app/'}?token=${token}`);
 });
 
