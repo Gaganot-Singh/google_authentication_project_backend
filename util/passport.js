@@ -27,7 +27,7 @@ passport.use(new GoogleStrategy({
     try {
       const user = await User.findOneAndUpdate(
         { googleId: profile.id },
-        { name: profile.displayName, googleId: profile.id, email: profile.emails[0].value},
+        { name: profile.displayName, googleId: profile.id, email: email},
         { upsert: true, new: true }
       );
       return cb(null, user);
