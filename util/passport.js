@@ -25,7 +25,9 @@ passport.use(new GoogleStrategy({
   },
   async (_accessToken, _refreshToken, profile, email, cb) => {
     try {
-      console.log('Google Profile:', profile, email); // Debugging log
+      console.log('Google Profile:-', profile); // Debugging log
+      console.log('space:-'); // Debugging log
+      console.log('email:-', email); // Debugging log
       const mail = profile.emails && profile.emails[0] && profile.emails[0].value ? profile.emails[0].value : null;
 
       if (!mail) {
