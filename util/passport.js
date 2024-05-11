@@ -25,10 +25,7 @@ passport.use(new GoogleStrategy({
   },
   async (_accessToken, _refreshToken, profile, email, cb) => {
     try {
-      console.log('Google Profile:-', profile); // Debugging log
-      console.log('space:-'); // Debugging log
-      console.log('email:-', email.emails[0].value); // Debugging log
-      const mail = email.emails && email.emails[0] && profile.emails[0].value ? profile.emails[0].value : null;
+      const mail = email.emails[0].value;
 
       if (!mail) {
         return cb(new Error('No email found in user profile'), null);
@@ -36,7 +33,7 @@ passport.use(new GoogleStrategy({
 
       const user = await User.findOneAndUpdate(
         { googleId: profile.id },
-        { name: profile.displayName, googleId: profile.id, mail: email},
+        { name: profile.displayName, googleId: profile.id, email: mail},
         { upsert: true, new: true }
       );
       return cb(null, user);

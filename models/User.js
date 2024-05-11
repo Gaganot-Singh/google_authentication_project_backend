@@ -13,6 +13,11 @@ const UserSchema = new Schema(
       unique: true,
       required: true,
     },
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+    },
   },
   {
     timestamps: true,

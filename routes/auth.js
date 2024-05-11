@@ -9,7 +9,7 @@ require("../util/passport");
 
 const generateToken = (user) => {
   const payload = { 
-    id: user.id,
+    id: user.googleId,
     name: user.name
   };
   return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d' });
