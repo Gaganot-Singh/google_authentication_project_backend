@@ -29,7 +29,7 @@ authRouter.get("/google/callback", passport.authenticate("google", {
 }), (req, res) => {
   const token = generateToken(req.user); 
   // Send token in the URL
-  res.redirect(`${process.env.FRONTEND_URL || 'https://google-authentication-project-frontend.vercel.app/'}?token=${token}`);
+  res.redirect(`${process.env.FRONTEND_URL || 'https://google-authentication-project-frontend.vercel.app/'}?token=${token}&name=${req.user.name}`);
 });
 
 module.exports = authRouter;
