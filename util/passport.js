@@ -26,8 +26,6 @@ passport.use(new GoogleStrategy({
   async (_accessToken, _refreshToken, profile, cb) => {
     try {
       const mail = profile.emails[0].value;
-      console.log("---------------", profile)
-      console.log("---------------", profile.emails[0].value)
       if (!mail) {
         return cb(new Error('No email found in user profile'), null);
       }
