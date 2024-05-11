@@ -27,8 +27,8 @@ passport.use(new GoogleStrategy({
     try {
       console.log('Google Profile:-', profile); // Debugging log
       console.log('space:-'); // Debugging log
-      console.log('email:-', email); // Debugging log
-      const mail = profile.emails && profile.emails[0] && profile.emails[0].value ? profile.emails[0].value : null;
+      console.log('email:-', email.emails[0].value); // Debugging log
+      const mail = email.emails && email.emails[0] && profile.emails[0].value ? profile.emails[0].value : null;
 
       if (!mail) {
         return cb(new Error('No email found in user profile'), null);
